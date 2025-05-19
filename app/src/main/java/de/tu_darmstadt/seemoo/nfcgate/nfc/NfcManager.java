@@ -178,7 +178,6 @@ public class NfcManager implements NfcAdapter.ReaderCallback, NetworkManager.Cal
         mDaemon.onResume();
 
         if (isEnabled()) {
-            enableForegroundDispatch();
             enableDisableReaderMode();
         }
     }
@@ -303,19 +302,6 @@ public class NfcManager implements NfcAdapter.ReaderCallback, NetworkManager.Cal
         else {
             mAdapter.disableReaderMode(mActivity);
         }
-    }
-
-    /**
-     * Configure NFC to deliver new tags using the given pending intent. Also gives us priority
-     * over all other system apps. Call in onResume()
-     */
-    private void enableForegroundDispatch() {
-        Intent intent = new Intent(mActivity, mActivity.getClass());
-        PendingIntent pendingIntent =
-                PendingIntent.getActivity(mActivity, 0, intent, PendingIntent.FLAG_MUTABLE);
-
-        // Register the activity, pass null techLists as a wildcard
-        mAdapter.enableForegroundDispatch(mActivity, pendingIntent, null, null);
     }
 
     /**

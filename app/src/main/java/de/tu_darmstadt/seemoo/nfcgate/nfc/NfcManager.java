@@ -123,17 +123,6 @@ public class NfcManager implements NfcAdapter.ReaderCallback, NetworkManager.Cal
             mStatusChanged.onChange();
     }
 
-    /**
-     * Enable or disable reader mode
-     */
-    public void setReaderMode(boolean enabled) {
-        mReaderMode = enabled;
-
-        // apply setting if nfc is enabled
-        if (isEnabled())
-            enableDisableReaderMode();
-    }
-
     public void startMode(BaseMode mode) {
         mMode = mode;
 
@@ -176,10 +165,6 @@ public class NfcManager implements NfcAdapter.ReaderCallback, NetworkManager.Cal
     public void onResume() {
         setBroadcastReceiverEnabled(true);
         mDaemon.onResume();
-
-        if (isEnabled()) {
-            enableDisableReaderMode();
-        }
     }
 
     /**
@@ -283,25 +268,6 @@ public class NfcManager implements NfcAdapter.ReaderCallback, NetworkManager.Cal
             // use our timestamp instead of the remote
             handleData(true, new NfcComm(data.isCard(), data.isInitial(), data.getData()));
         });
-    }
-
-    /**
-     * Enable or disable reader mode for this activity
-     */
-    private void enableDisableReaderMode() {
-        if (mReaderMode) {
-            // Read all techs, skip NDEF to skip P2P
-            int flags = NfcAdapter.FLAG_READER_NFC_A |
-                        NfcAdapter.FLAG_READER_NFC_B |
-                        NfcAdapter.FLAG_READER_NFC_F |
-                        NfcAdapter.FLAG_READER_NFC_V |
-                        NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK;
-
-            mAdapter.enableReaderMode(mActivity, this, flags, null);
-        }
-        else {
-            mAdapter.disableReaderMode(mActivity);
-        }
     }
 
     /**

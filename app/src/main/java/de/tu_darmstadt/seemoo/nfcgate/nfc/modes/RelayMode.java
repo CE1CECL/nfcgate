@@ -15,8 +15,6 @@ public class RelayMode extends BaseMode {
     public void onEnable() {
         // reset polling on start
         mManager.resetConfig();
-        // enable or disable reader mode
-        mManager.setReaderMode(mReader);
 
         // connect to the network
         if (mOnline)
@@ -27,8 +25,6 @@ public class RelayMode extends BaseMode {
     public void onDisable() {
         // reset polling and config after mode ends
         mManager.resetConfig();
-        // disable reader mode
-        mManager.setReaderMode(false);
 
         // disconnect from the network
         if (mOnline)

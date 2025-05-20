@@ -172,10 +172,6 @@ public class NfcManager implements NfcAdapter.ReaderCallback, NetworkManager.Cal
      */
     public void onPause() {
         setBroadcastReceiverEnabled(false);
-
-        if (isEnabled()) {
-            disableForegroundDispatch();
-        }
     }
 
     /**
@@ -268,13 +264,5 @@ public class NfcManager implements NfcAdapter.ReaderCallback, NetworkManager.Cal
             // use our timestamp instead of the remote
             handleData(true, new NfcComm(data.isCard(), data.isInitial(), data.getData()));
         });
-    }
-
-    /**
-     * Disables priority dispatching. Call in onPause()
-     */
-    private void disableForegroundDispatch() {
-        // Disable dispatch as documentation requires
-        mAdapter.disableForegroundDispatch(mActivity);
     }
 }
